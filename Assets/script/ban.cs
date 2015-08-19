@@ -6,6 +6,7 @@ public class ban : MonoBehaviour {
 	public WWW GET(string url) {
 		WWW www = new WWW (url);
 		StartCoroutine (WaitForRequest (www));
+
 		return www;
 	}
 	public WWW POST(string url) {
@@ -24,7 +25,24 @@ public class ban : MonoBehaviour {
 		y = y - 1;
 		return y;
 	}
-	
+	private void komahaiti(){
+		int a1;
+		int a2;
+
+			for (a1 = 0; a1<9; a1++)
+				for (a2 = 0; a2<9; a2++) {
+				
+					Debug.Log (komaseting [a1, a2] + "y" + a1 + "x" + a2);
+				
+					if (komaseting [a1, a2] <= 18 && komaseting [a1, a2] >= 1) {
+						komaposi.y = 9 - a1;
+						komaposi.x = a2 + 1;
+						Instantiate (hu, komaposi, Quaternion.AngleAxis (180, -Vector3.forward));
+					
+				}
+			
+		}
+	}
 
 	private IEnumerator WaitForRequest(WWW www) {
 		yield return www;
@@ -43,10 +61,13 @@ public class ban : MonoBehaviour {
 			posy = changecoordinatey(posy);
 			komaseting[posy,posx]=komaid;
 			Debug.Log ((string)piece["name"]);
+
 			}
 		} else {
 			Debug.Log("WWW Error: "+ www.error);
 		}
+		komahaiti ();
+
 	}
 
 	public GameObject hu;
@@ -81,29 +102,14 @@ public class ban : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		string url = "http://192.168.3.83:3000/get_pieces.json";
+		GET (url);
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		string url = "http://192.168.3.83:3000/get_pieces.json";
-		GET (url);
-		int a1 ;
-		int a2 ;
-		count++;
-		if (count > 200) {
-			for( a1 = 0; a1<9; a1++)
-				for( a2 = 0; a2<9; a2++){
 
-			Debug.Log (komaseting [a1, a2] +"y" + a1 + "x" + a2);
 
-				if(komaseting[a1,a2]<=18&&komaseting[a1,a2]>=1){
-					komaposi.y = 9-a1;
-					komaposi.x = a2+1;
-					Instantiate(hu,komaposi,Quaternion.AngleAxis( 180, -Vector3.forward ));
-				}
-			}
-			count = 0;
-
-		}
 	}
 }
