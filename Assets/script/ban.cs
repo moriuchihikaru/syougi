@@ -41,7 +41,7 @@ public class ban : MonoBehaviour {
 			posy=(int)(long)piece["posy"];
 			posx = changecoordinatex(posx);
 			posy = changecoordinatey(posy);
-			komaseting[posx,posy]=komaid;
+			komaseting[posy,posx]=komaid;
 			Debug.Log ((string)piece["name"]);
 			}
 		} else {
@@ -49,6 +49,14 @@ public class ban : MonoBehaviour {
 		}
 	}
 
+	public GameObject hu;
+	public GameObject kyou;
+	public GameObject kei;
+	public GameObject gin;
+	public GameObject kin;
+	public GameObject kaku;
+	public GameObject hisya;
+	public GameObject gyoku;
 
 	int [,] komaseting =new int [9,9]{
 		//x-1  y-1
@@ -68,24 +76,32 @@ public class ban : MonoBehaviour {
 	private int komaid;
 	int count;
 	Vector2 mouseposition;
+	
+	Vector3 komaposi;
 
 	// Use this for initialization
 	void Start () {
-
-
-
-		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		string url = "http://192.168.3.83:3000/get_pieces.json";
 		GET (url);
+		int a1 ;
+		int a2 ;
 		count++;
 		if (count > 200) {
-			for(int a1 = 0; a1<9; a1++)
-				for(int a2 = 0; a2<9; a2++)
-			Debug.Log (komaseting [a1, a2] + "aaaas");
+			for( a1 = 0; a1<9; a1++)
+				for( a2 = 0; a2<9; a2++){
+
+			Debug.Log (komaseting [a1, a2] +"y" + a1 + "x" + a2);
+
+				if(komaseting[a1,a2]<=18&&komaseting[a1,a2]>=1){
+					komaposi.y = 9-a1;
+					komaposi.x = a2+1;
+					Instantiate(hu,komaposi,Quaternion.AngleAxis( 180, -Vector3.forward ));
+				}
+			}
 			count = 0;
 
 		}
