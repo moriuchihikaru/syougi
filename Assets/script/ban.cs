@@ -31,17 +31,34 @@ public class ban : MonoBehaviour {
 
 			for (a1 = 0; a1<9; a1++)
 				for (a2 = 0; a2<9; a2++) {
-				
-					Debug.Log (komaseting [a1, a2] + "y" + a1 + "x" + a2);
 			komaposi.y = 9 - a1;
 			komaposi.x = a2 + 1;
-					if (komaseting [a1, a2] <= 9 && komaseting [a1, a2] >= 1) {
-
-
-						Instantiate (hu, komaposi, Quaternion.AngleAxis (180, -Vector3.forward));
 					
-				}
-			
+			if (komaseting [a1, a2] <= 9 && komaseting [a1, a2] >= 1) {
+				Instantiate (hu, komaposi,transform.rotation);
+			}//ふ
+			if (komaseting [a1, a2] <= 20 && komaseting [a1, a2] >= 19) {
+				Instantiate (kyou, komaposi,transform.rotation);
+			}//きょう
+			if (komaseting [a1, a2] <= 24 && komaseting [a1, a2] >= 23) {
+				Instantiate (kei, komaposi,transform.rotation);
+			}//けい
+			if (komaseting [a1, a2] <= 28 && komaseting [a1, a2] >= 27) {
+				Instantiate (gin, komaposi,transform.rotation);
+			}//ぎん
+			if (komaseting [a1, a2] <= 32 && komaseting [a1, a2] >= 31) {
+				Instantiate (kin, komaposi,transform.rotation);
+			}//きん
+			if (komaseting [a1, a2] == 35) {
+				Instantiate (hisya,komaposi,transform.rotation);
+			}//ひしゃ
+			if (komaseting [a1, a2] == 37) {
+				Instantiate (kaku, komaposi,transform.rotation);
+			}//かく
+			if (komaseting [a1, a2] == 39) {
+				Instantiate (gyoku, komaposi,transform.rotation);
+			}//おう
+
 		}
 	}
 
@@ -83,8 +100,8 @@ public class ban : MonoBehaviour {
 	public GameObject kei;
 	public GameObject gin;
 	public GameObject kin;
-	public GameObject kaku;
 	public GameObject hisya;
+	public GameObject kaku;
 	public GameObject gyoku;
 
 	 public static int [,] komaseting =new int [9,9]{
@@ -109,6 +126,27 @@ public class ban : MonoBehaviour {
 	
 	public static Vector3 komaposi;
 
+	public WWW POSTupdate(string url) {
+		WWWForm form = new WWWForm();
+		form.AddField("name" ,inputid.name);
+		form.AddField("room_no" ,inputid.room_no);
+		WWW www = new WWW(url, form);
+		StartCoroutine(WaitForRequest(www));
+		return www;
+	}
+	private IEnumerator POSTWaitForRequest(WWW www) {
+		yield return www;
+		// check for errors
+		if (www.error == null) {
+			
+			
+			var json = Json.Deserialize (www.text) as Dictionary<string, object>;
+			Debug.Log ("WWW Ok!: " + www.text);
+
+		} else {
+			Debug.Log ("WWW Error: " + www.error);
+		}
+	}
 	// Use this for initialization
 	void Start () {
 		string url = "http://192.168.3.83:3000/get_pieces.json";
@@ -118,6 +156,8 @@ public class ban : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+
 		count++;
 		if (count == 200) {
 			string url = "http://192.168.3.83:3000/get_pieces.json";
@@ -127,8 +167,11 @@ public class ban : MonoBehaviour {
 			int a2;
 			for (a1 = 0; a1<9; a1++)
 			for (a2 = 0; a2<9; a2++) 
-				
 				Debug.Log (komaseting [a1, a2] + "y" + a1 + "x" + a2);
+
+		//	string update = "http://192.168.3.83:3000/plays/update";
+		//	POSTupdate(update);
+
 		}
 
 	}

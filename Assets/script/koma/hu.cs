@@ -22,8 +22,7 @@ public class hu: MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-
+		
 		if (Input.GetMouseButtonDown (0) && (transform.localPosition.x == Mathf.RoundToInt (screenToWorldPointPosition.x) && (transform.localPosition.y == Mathf.RoundToInt (screenToWorldPointPosition.y)))){
 			click = 1;
 		pastx = transform.position.x;
@@ -31,7 +30,6 @@ public class hu: MonoBehaviour {
 			komaid = ban.komaseting [9- (int)transform.position.y, (int)transform.position.x - 1];
 	}
 		if (Input.GetMouseButtonUp (0)) {
-			//if(transform.position.x != pastx || transform.position.y != pasty )
 				if(transform.position.y == pasty+1  && transform.position.x == pastx ){
 				ban.komaseting [9-(int)pasty, (int)pastx-1]=0;
 				ban.komaseting [9- (int)transform.position.y, (int)transform.position.x - 1]  = komaid;
@@ -42,11 +40,8 @@ public class hu: MonoBehaviour {
 					pasty, 
 					screenToWorldPointPosition.z);
 			}
-
-
 			click = 0;
 		}
-
 		// Vector3でマウス位置座標を取得する
 		position = Input.mousePosition;
 		// Z軸修正
@@ -54,26 +49,16 @@ public class hu: MonoBehaviour {
 		// マウス位置座標をスクリーン座標からワールド座標に変換する
 		screenToWorldPointPosition = Camera.main.ScreenToWorldPoint (position);
 		// ワールド座標に変換されたマウス座標を代入
-
-
-		if (click==1) {
-
-			
-			transform.position = new Vector3(
-				Mathf.RoundToInt(screenToWorldPointPosition.x),
-				Mathf.RoundToInt(screenToWorldPointPosition.y), 
-				screenToWorldPointPosition.z);
-			/*	gameObject.transform.position = screenToWorldPointPosition;
-			var pos = transform.position;
-			pos.x = 1;
-			transform.position = pos;*/
+		if (click == 1) {
+			transform.position = new Vector3 (
+				Mathf.RoundToInt (screenToWorldPointPosition.x),
+				Mathf.RoundToInt (screenToWorldPointPosition.y), 
+				-1);
+		} else {
+			transform.position = new Vector3 (
+				transform.position.x,
+				transform.position.y, 
+				0);
 		}
-	//	if (click == 0)
-	//	if (ban.komaseting [9 - (int)transform.position.y, (int)transform.position.x - 1] <= 0)
-	//		ban.komaseting [9- (int)transform.position.y, (int)transform.position.x - 1]=0;
-
-
-
-
 	}
 }
