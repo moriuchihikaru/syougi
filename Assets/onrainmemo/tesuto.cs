@@ -24,8 +24,10 @@ public class tesuto : MonoBehaviour {
 		// check for errors
 		if (www.error == null) {
 			Debug.Log("WWW Ok!: " + www.text);
+
 			var json = Json.Deserialize (www.text) as Dictionary<string, object>;
 			Debug.Log ((string)json["state"]);
+		
 			Debug.Log (inputid.name);
 			Debug.Log (inputid.room_no);
 		} else {
@@ -33,7 +35,8 @@ public class tesuto : MonoBehaviour {
 		}
 	}
 
-
+	static public string user_id;
+	static public string play_id;
 
 	// Use this for initialization
 	void Start () {
