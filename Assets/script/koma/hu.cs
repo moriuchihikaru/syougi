@@ -11,6 +11,10 @@ public class hu: MonoBehaviour {
 	int click;
 	float pastx;
 	float pasty;
+	int komaid;
+
+
+
 	void Start () {
 		pastx = transform.position.x;
 		pasty = transform.position.y;
@@ -18,11 +22,19 @@ public class hu: MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown (0)&&(transform.localPosition.x==Mathf.RoundToInt(screenToWorldPointPosition.x)&&(transform.localPosition.y==Mathf.RoundToInt(screenToWorldPointPosition.y))))
+
+
+		if (Input.GetMouseButtonDown (0) && (transform.localPosition.x == Mathf.RoundToInt (screenToWorldPointPosition.x) && (transform.localPosition.y == Mathf.RoundToInt (screenToWorldPointPosition.y)))){
 			click = 1;
+		pastx = transform.position.x;
+		pasty = transform.position.y;
+			komaid = ban.komaseting [9- (int)transform.position.y, (int)transform.position.x - 1];
+	}
 		if (Input.GetMouseButtonUp (0)) {
 			//if(transform.position.x != pastx || transform.position.y != pasty )
 				if(transform.position.y == pasty+1  && transform.position.x == pastx ){
+				ban.komaseting [9-(int)pasty, (int)pastx-1]=0;
+				ban.komaseting [9- (int)transform.position.y, (int)transform.position.x - 1]  = komaid;
 			}//　ふのばあいのみ
 				else{
 			transform.position = new Vector3 (
@@ -30,9 +42,8 @@ public class hu: MonoBehaviour {
 					pasty, 
 					screenToWorldPointPosition.z);
 			}
-			pastx = transform.position.x;
-			pasty = transform.position.y;
-		
+
+
 			click = 0;
 		}
 
@@ -57,5 +68,12 @@ public class hu: MonoBehaviour {
 			pos.x = 1;
 			transform.position = pos;*/
 		}
+	//	if (click == 0)
+	//	if (ban.komaseting [9 - (int)transform.position.y, (int)transform.position.x - 1] <= 0)
+	//		ban.komaseting [9- (int)transform.position.y, (int)transform.position.x - 1]=0;
+
+
+
+
 	}
 }
