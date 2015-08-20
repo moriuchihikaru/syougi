@@ -77,7 +77,7 @@ public class hu: MonoBehaviour {
 				ban.komaseting [9- (int)transform.position.y, (int)transform.position.x - 1]  = komaid;
 				string url = "http://192.168.3.83:3000/plays/update";
 				POSTupdate(url);
-				Destroy(gameObject);
+			//	Destroy(gameObject);
 
 			}//　ふのばあいのみ
 				else{
