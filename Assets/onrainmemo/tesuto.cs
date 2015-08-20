@@ -5,21 +5,33 @@ using MiniJSON;
 
 public class tesuto : MonoBehaviour {
 
-	public WWW GET(string url) {
+	public WWW stateGET(string url) {
 		WWW www = new WWW (url);
-		StartCoroutine (WaitForRequest (www));
+		StartCoroutine (WaitForRequeststate (www));
 		return www;
 	}
-	public WWW POST(string url) {
+	public WWW loginPOST(string url) {
 		WWWForm form = new WWWForm();
 		form.AddField("name" ,inputid.name);
 		form.AddField("room_no" ,inputid.room_no);
 		WWW www = new WWW(url, form);
-		StartCoroutine(WaitForRequest(www));
+		StartCoroutine(WaitForRequestlogin(www));
 		return www;
 	}
 
-	private IEnumerator WaitForRequest(WWW www) {
+	private IEnumerator WaitForRequeststate(WWW www) {
+		yield return www;
+		// check for errors
+		if (www.error == null) {
+			Debug.Log("WWW Ok!: " + www.text);
+			
+			var json = Json.Deserialize (www.text) as Dictionary<string, object>;
+			Debug.Log ((string)json["state"]);
+		} else {
+			Debug.Log("WWW Error: "+ www.error);
+		}
+	}
+	private IEnumerator WaitForRequestlogin(WWW www) {
 		yield return www;
 		// check for errors
 		if (www.error == null) {
@@ -27,7 +39,8 @@ public class tesuto : MonoBehaviour {
 
 			var json = Json.Deserialize (www.text) as Dictionary<string, object>;
 			Debug.Log ((string)json["state"]);
-		
+			user_id=((long)json["user_id"]);
+			play_id=((long)json["play_id"]);
 			Debug.Log (inputid.name);
 			Debug.Log (inputid.room_no);
 		} else {
@@ -35,15 +48,15 @@ public class tesuto : MonoBehaviour {
 		}
 	}
 
-	static public string user_id;
-	static public string play_id;
+	static public long user_id;
+	static public long play_id;
 
 	// Use this for initialization
 	void Start () {
-		string url = "http://192.168.3.83:3000/plays/1/state";
-		GET (url);
-		url = "http://192.168.3.83:3000/users/login";
-		POST (url);
+		string stateurl = "http://192.168.3.83:3000/plays/1/state";
+		stateGET (stateurl);
+		string loginurl = "http://192.168.3.83:3000/users/login";
+		loginPOST (loginurl);
 
 	}
 	

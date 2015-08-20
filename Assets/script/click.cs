@@ -17,7 +17,7 @@ public class click : MonoBehaviour {
 			
 			if (aCollider2d) {
 				GameObject obj = aCollider2d.transform.gameObject;
-				Debug.Log(obj.name);
+				//Debug.Log(obj.name);
 
 			}
 		}

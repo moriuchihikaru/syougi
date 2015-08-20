@@ -17,14 +17,18 @@ public class hu: MonoBehaviour {
 
 	int komax;
 	int komay;
+	
 
 	public WWW POSTupdate(string url) {
 		WWWForm form = new WWWForm();
-		form.AddField("play_id" ,tesuto.play_id);
-		form.AddField("user_id" ,tesuto.user_id);
+		form.AddField("play_id" ,tesuto.play_id.ToString());
+		form.AddField("user_id" ,tesuto.user_id.ToString());
 		form.AddField("move_id" ,komaid);
 		form.AddField("posx",(int)(9-transform.position.x));
+
 		form.AddField("posy",(int)transform.position.y);
+		Debug.Log (10 - transform.position.x);
+		Debug.Log (10-transform.position.y);
 		form.AddField("promote","false");
 		form.AddField("get_id","-1");
 		WWW www = new WWW(url, form);
@@ -71,6 +75,8 @@ public class hu: MonoBehaviour {
 				if(transform.position.y == pasty+1  && transform.position.x == pastx ){
 				ban.komaseting [9-(int)pasty, (int)pastx-1]=0;
 				ban.komaseting [9- (int)transform.position.y, (int)transform.position.x - 1]  = komaid;
+				string url = "http://192.168.3.83:3000/plays/update";
+				POSTupdate(url);
 
 
 			//	string update = "http://192.168.3.83:3000/plays/update";
