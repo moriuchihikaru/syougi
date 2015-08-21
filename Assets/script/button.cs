@@ -6,6 +6,7 @@ public class button : MonoBehaviour {
 	// Use this for initialization
 	public void scene() {
 		Application.LoadLevel("main");
+		Destroy (gameObject);
 	}
 }
 

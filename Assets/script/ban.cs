@@ -152,7 +152,7 @@ public class ban : MonoBehaviour {
 		{0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0},
-		{1,2,3,4,5,6,7,8,9},
+		{0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0}
 	};
@@ -170,6 +170,7 @@ public class ban : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		string url = "http://192.168.3.83:3000/get_pieces.json";
+		//string url = "http://192.168.3.83:3000/plays/" + tesuto.play_id.ToString() + "/pieces";
 		GET (url);
 
 	}
@@ -180,14 +181,14 @@ public class ban : MonoBehaviour {
 
 		count++;
 		if (count == 200) {
-			string url = "http://192.168.3.83:3000/get_pieces.json";
+			string url = "http://192.168.3.83:3000/plays/" + tesuto.play_id.ToString() + "/pieces";
 			GET (url);
 			count = 0;
 			int a1;
 			int a2;
-			for (a1 = 0; a1<9; a1++)
-			for (a2 = 0; a2<9; a2++) 
-				Debug.Log (komaseting [a1, a2] + "y" + a1 + "x" + a2);
+		//	for (a1 = 0; a1<9; a1++)
+		//	for (a2 = 0; a2<9; a2++) 
+			//	Debug.Log (komaseting [a1, a2] + "y" + a1 + "x" + a2);
 
 
 		}

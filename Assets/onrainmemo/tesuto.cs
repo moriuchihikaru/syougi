@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using MiniJSON;
+using UnityEngine.Events;
 
 public class tesuto : MonoBehaviour {
 
@@ -10,12 +11,12 @@ public class tesuto : MonoBehaviour {
 		StartCoroutine (WaitForRequeststate (www));
 		return www;
 	}
-	public WWW loginPOST(string url) {
+	public WWW loginPOST(string url,UnityAction<string> call= null) {
 		WWWForm form = new WWWForm();
 		form.AddField("name" ,inputid.name);
 		form.AddField("room_no" ,inputid.room_no);
 		WWW www = new WWW(url, form);
-		StartCoroutine(WaitForRequestlogin(www));
+		StartCoroutine(WaitForRequestlogin(www, call));
 		return www;
 	}
 
@@ -31,8 +32,9 @@ public class tesuto : MonoBehaviour {
 			Debug.Log("WWW Error: "+ www.error);
 		}
 	}
-	private IEnumerator WaitForRequestlogin(WWW www) {
+	private IEnumerator WaitForRequestlogin(WWW www,UnityAction<string> call= null) {
 		yield return www;
+
 		// check for errors
 		if (www.error == null) {
 			Debug.Log("WWW Ok!: " + www.text);
@@ -46,6 +48,8 @@ public class tesuto : MonoBehaviour {
 		} else {
 			Debug.Log("WWW Error: "+ www.error);
 		}
+		if (call != null)
+			call (www.text);
 	}
 
 	static public long user_id;
@@ -53,11 +57,18 @@ public class tesuto : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		string stateurl = "http://192.168.3.83:3000/plays/1/state";
-		stateGET (stateurl);
 		string loginurl = "http://192.168.3.83:3000/users/login";
-		loginPOST (loginurl);
+		loginPOST (loginurl, hoge);
 
+
+	}
+
+	void hoge(string text) {
+		
+		Debug.Log (play_id);
+		string stateurl = "http://192.168.3.83:3000/plays/"+play_id.ToString()+"/state";
+		Debug.Log (stateurl);
+		stateGET (stateurl);
 	}
 	
 	// Update is called once per frame
