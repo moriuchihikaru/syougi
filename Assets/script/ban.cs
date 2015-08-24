@@ -99,9 +99,12 @@ public class ban : MonoBehaviour {
 		// check for errors
 		if (www.error == null) {
 
-
+			komaid=0;
 			var json = Json.Deserialize (www.text) as Dictionary<string, object>;
 			Debug.Log("WWW Ok!: " + www.text);
+			for (a1 = 0; a1<9; a1++)
+				for (a2 = 0; a2<9; a2++)
+					komaseting [a1, a2]=0;
 			while(komaid<40){
 				komaid++;
 				var piece = (Dictionary<string, object>)json[string.Format("{0}", komaid)];
@@ -109,18 +112,22 @@ public class ban : MonoBehaviour {
 			posy=(int)(long)piece["posy"];
 			posx = changecoordinatex(posx);
 			posy = changecoordinatey(posy);
+			//	Debug.Log (komaid);
 			komaseting[posy,posx]=komaid;
-			pastkomaseting[posy,posx]=komaid;
-			Debug.Log ((string)piece["name"]);
+		//	pastkomaseting[posy,posx]=komaid;
+		//	Debug.Log ((string)piece["name"]);
 
 			}
 		} else {
 			Debug.Log("WWW Error: "+ www.error);
 		}
-		if (switchkomaset == 0)
+		if (switchkomaset == 0) {
 			komahaiti ();
-		else {
+			for (a1 = 0; a1<9; a1++)
+				for (a2 = 0; a2<9; a2++) 
+					pastkomaseting [a1, a2] = komaseting [a1, a2];
 		}
+
 		switchkomaset = 1;
 
 
@@ -166,12 +173,16 @@ public class ban : MonoBehaviour {
 	
 	public static Vector3 komaposi;
 
-
+	int a1;
+	int a2;
+	static public int tekimoveposix;
+	static public int tekimoveposiy;
+	static public int tekimoveposiid=-1;
 	// Use this for initialization
 	void Start () {
-		string url = "http://192.168.3.83:3000/get_pieces.json";
+		//string url = "http://192.168.3.83:3000/get_pieces.json";
 		//string url = "http://192.168.3.83:3000/plays/" + tesuto.play_id.ToString() + "/pieces";
-		GET (url);
+		//GET (url);
 
 	}
 	
@@ -180,18 +191,27 @@ public class ban : MonoBehaviour {
 
 
 		count++;
-		if (count == 200) {
-			string url = "http://192.168.3.83:3000/plays/" + tesuto.play_id.ToString() + "/pieces";
+		if (count == 100) {
+			string url = "http://192.168.3.83:3000/plays/" + tesuto.play_id.ToString () + "/pieces";
 			GET (url);
 			count = 0;
-			int a1;
-			int a2;
-		//	for (a1 = 0; a1<9; a1++)
-		//	for (a2 = 0; a2<9; a2++) 
-			//	Debug.Log (komaseting [a1, a2] + "y" + a1 + "x" + a2);
+			Debug.Log(komaseting[5,5]);
+			for (a1 = 0; a1<9; a1++)
+				for (a2 = 0; a2<9; a2++) { 
+					if (pastkomaseting [a1, a2] != komaseting [a1, a2] && komaseting [a1, a2] != 0) {
 
+						tekimoveposix = a2;
+						tekimoveposiy = a1;
+						tekimoveposiid = komaseting [a1, a2];
 
+						Debug.Log(tekimoveposiid);
+						Debug.Log (tekimoveposix + "xxxx");
+						Debug.Log (tekimoveposiy + "yyyy");
+						//komaseting[a1,a2]==
+			
+				}
+				pastkomaseting [a1, a2] = komaseting [a1, a2];
+			}
 		}
-
 	}
 }

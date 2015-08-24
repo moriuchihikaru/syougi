@@ -27,7 +27,7 @@ public class tesuto : MonoBehaviour {
 			Debug.Log("WWW Ok!: " + www.text);
 			
 			var json = Json.Deserialize (www.text) as Dictionary<string, object>;
-			Debug.Log ((string)json["state"]);
+		//	Debug.Log ((string)json["state"]);
 		} else {
 			Debug.Log("WWW Error: "+ www.error);
 		}
