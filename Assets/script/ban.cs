@@ -189,13 +189,12 @@ public class ban : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
+		if(tesuto.stateswitch==0){
 		count++;
 		if (count == 100) {
 			string url = "http://192.168.3.83:3000/plays/" + tesuto.play_id.ToString () + "/pieces";
 			GET (url);
 			count = 0;
-			Debug.Log(komaseting[5,5]);
 			for (a1 = 0; a1<9; a1++)
 				for (a2 = 0; a2<9; a2++) { 
 					if (pastkomaseting [a1, a2] != komaseting [a1, a2] && komaseting [a1, a2] != 0) {
@@ -204,13 +203,12 @@ public class ban : MonoBehaviour {
 						tekimoveposiy = a1;
 						tekimoveposiid = komaseting [a1, a2];
 
-						Debug.Log(tekimoveposiid);
-						Debug.Log (tekimoveposix + "xxxx");
-						Debug.Log (tekimoveposiy + "yyyy");
-						//komaseting[a1,a2]==
-			
+			//			Debug.Log(tekimoveposiid);
+			//			Debug.Log (tekimoveposix + "xxxx");
+			//			Debug.Log (tekimoveposiy + "yyyy");
 				}
-				pastkomaseting [a1, a2] = komaseting [a1, a2];
+					pastkomaseting [a1, a2] = komaseting [a1, a2];
+				}
 			}
 		}
 	}
