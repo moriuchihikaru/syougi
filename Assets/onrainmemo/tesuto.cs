@@ -74,14 +74,13 @@ public class tesuto : MonoBehaviour {
 	//		Debug.Log ((long)json["turn_count"]);
 			turn_count=((int)(long)json["turn_count"]);
 			Debug.Log (turn_count);
-			turn_player=((int)(long)json["turn_player"]);
-			Debug.Log(turn_player);
+		//	turn_player=((int)(long)json["turn_player"]);
+		//	Debug.Log(turn_player);
 			Debug.Log (user_id);
 			if(turn_player==user_id)
 			{
-				turn.myturn=1;
-
-			};
+				turn.myturn=0;
+			}
 
 		//自分が後手
 		} else {

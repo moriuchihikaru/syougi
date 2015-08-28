@@ -2,11 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using MiniJSON;
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using MiniJSON;
 public class ban : MonoBehaviour {
 	public WWW GET(string url) {
 		WWW www = new WWW (url);
 		StartCoroutine (WaitForRequest (www));
-
+		
 		return www;
 	}
 	public WWW POST(string url) {
@@ -28,12 +32,12 @@ public class ban : MonoBehaviour {
 	private void komahaiti(){
 		int a1;
 		int a2;
-
-			for (a1 = 0; a1<9; a1++)
-				for (a2 = 0; a2<9; a2++) {
+		
+		for (a1 = 0; a1<9; a1++)
+		for (a2 = 0; a2<9; a2++) {
 			komaposi.y = 9 - a1;
 			komaposi.x = a2 + 1;
-					
+			
 			if (komaseting [a1, a2] <= 9 && komaseting [a1, a2] >= 1) {
 				Instantiate (hu, komaposi,transform.rotation);
 			}//ふ
@@ -58,8 +62,8 @@ public class ban : MonoBehaviour {
 			if (komaseting [a1, a2] == 39) {
 				Instantiate (gyoku, komaposi,transform.rotation);
 			}//おう
-
-
+			
+			
 			if (komaseting [a1, a2] <= 18 && komaseting [a1, a2] >= 10) {
 				Instantiate (enemyhu, komaposi,transform.rotation);
 			}//ふ
@@ -84,21 +88,21 @@ public class ban : MonoBehaviour {
 			if (komaseting [a1, a2] == 40) {
 				Instantiate (enemygyoku, komaposi,transform.rotation);
 			}//おう
-
-
-
-
-
-
+			
+			
+			
+			
+			
+			
 		}
 	}
-
-
+	
+	
 	private IEnumerator WaitForRequest(WWW www) {
 		yield return www;
 		// check for errors
 		if (www.error == null) {
-
+			
 			komaid=0;
 			var json = Json.Deserialize (www.text) as Dictionary<string, object>;
 			Debug.Log("WWW Ok!: " + www.text);
@@ -108,15 +112,19 @@ public class ban : MonoBehaviour {
 			while(komaid<40){
 				komaid++;
 				var piece = (Dictionary<string, object>)json[string.Format("{0}", komaid)];
-			posx=(int)(long)piece["posx"];
-			posy=(int)(long)piece["posy"];
-			posx = changecoordinatex(posx);
-			posy = changecoordinatey(posy);
-			//	Debug.Log (komaid);
-			komaseting[posy,posx]=komaid;
-		//	pastkomaseting[posy,posx]=komaid;
-		//	Debug.Log ((string)piece["name"]);
-
+				if((int)(long)piece["posx"]!=0)
+				{	posx=(int)(long)piece["posx"];
+				posy=(int)(long)piece["posy"];
+				posx = changecoordinatex(posx);
+				posy = changecoordinatey(posy);
+				//	Debug.Log (komaid);
+			//	Debug.Log (posx);
+			//	Debug.Log (posy);
+					komaseting[posy,posx]=komaid;
+				}
+				//	pastkomaseting[posy,posx]=komaid;
+				//	Debug.Log ((string)piece["name"]);
+				
 			}
 		} else {
 			Debug.Log("WWW Error: "+ www.error);
@@ -127,12 +135,12 @@ public class ban : MonoBehaviour {
 				for (a2 = 0; a2<9; a2++) 
 					pastkomaseting [a1, a2] = komaseting [a1, a2];
 		}
-
+		
 		switchkomaset = 1;
-
-
+		
+		
 	}
-
+	
 	public GameObject hu;
 	public GameObject kyou;
 	public GameObject kei;
@@ -141,7 +149,7 @@ public class ban : MonoBehaviour {
 	public GameObject hisya;
 	public GameObject kaku;
 	public GameObject gyoku;
-
+	
 	public GameObject enemyhu;
 	public GameObject enemykyou;
 	public GameObject enemykei;
@@ -150,8 +158,8 @@ public class ban : MonoBehaviour {
 	public GameObject enemyhisya;
 	public GameObject enemykaku;
 	public GameObject enemygyoku;
-
-	 public static int [,] komaseting =new int [9,9]{
+	
+	public static int [,] komaseting =new int [9,9]{
 		//x-1  y-1
 		{0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0},
@@ -163,7 +171,7 @@ public class ban : MonoBehaviour {
 		{0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0}
 	};
-	int [,] pastkomaseting = new int[9,9];
+	public static int [,] pastkomaseting = new int[9,9];
 	private int switchkomaset;
 	private int posx;
 	private int posy;
@@ -172,7 +180,7 @@ public class ban : MonoBehaviour {
 	Vector2 mouseposition;
 	
 	public static Vector3 komaposi;
-
+	
 	int a1;
 	int a2;
 	static public int tekimoveposix;
@@ -183,30 +191,31 @@ public class ban : MonoBehaviour {
 		//string url = "http://192.168.3.83:3000/get_pieces.json";
 		//string url = "http://192.168.3.83:3000/plays/" + tesuto.play_id.ToString() + "/pieces";
 		//GET (url);
-
+		
 	}
-	
+	static public int [] destroyid = new int [41];
+
 	// Update is called once per frame
 	void Update () {
-
+		
 		if(tesuto.stateswitch==0){
-		count++;
-		if (count == 100) {
-			string url = "http://192.168.3.83:3000/plays/" + tesuto.play_id.ToString () + "/pieces";
-			GET (url);
-			count = 0;
-			for (a1 = 0; a1<9; a1++)
+			count++;
+			if (count == 100) {
+				string url = "http://192.168.3.83:3000/plays/" + tesuto.play_id.ToString () + "/pieces";
+				GET (url);
+				count = 0;
+				for (a1 = 0; a1<9; a1++)
 				for (a2 = 0; a2<9; a2++) { 
 					if (pastkomaseting [a1, a2] != komaseting [a1, a2] && komaseting [a1, a2] != 0) {
-
+						
 						tekimoveposix = a2;
 						tekimoveposiy = a1;
 						tekimoveposiid = komaseting [a1, a2];
-
-			//			Debug.Log(tekimoveposiid);
-			//			Debug.Log (tekimoveposix + "xxxx");
-			//			Debug.Log (tekimoveposiy + "yyyy");
-				}
+						destroyid[komaseting[a1,a2]]=-1;
+						//			Debug.Log(tekimoveposiid);
+						//			Debug.Log (tekimoveposix + "xxxx");
+						//			Debug.Log (tekimoveposiy + "yyyy");
+					}
 					pastkomaseting [a1, a2] = komaseting [a1, a2];
 				}
 			}
